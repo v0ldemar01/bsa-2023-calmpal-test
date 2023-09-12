@@ -19,7 +19,7 @@ scripts:
   - &set-env-vars
     name: Create .env file and set variables
     script: |
-      cat >> ./mobile/.env << EOF
+      cat > ./mobile/.env << EOF
       API_URL = $API_URL
       APP_HOST = $APP_HOST
       APP_SCHEME = $APP_SCHEME
