@@ -42,6 +42,7 @@ const Auth: React.FC = () => {
         return (
           <>
             {/* <SignUpForm onSubmit={handleSignUpSubmit} /> */}
+
             {Object.entries(config.envSchema).map(([key, value]) => {
               return (
                 <Text>
