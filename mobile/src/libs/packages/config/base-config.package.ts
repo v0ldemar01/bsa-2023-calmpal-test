@@ -12,7 +12,7 @@ class BaseConfig implements Config {
     this.ENV = this.envSchema;
   }
 
-  private get envSchema(): EnvironmentSchema {
+  public get envSchema(): EnvironmentSchema {
     return {
       APP: {
         ENVIRONMENT: EnvConfig['ENVIRONMENT'] as ValueOf<typeof AppEnvironment>,

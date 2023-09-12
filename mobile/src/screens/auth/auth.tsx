@@ -10,6 +10,7 @@ import {
 import { actions as authActions } from '#slices/auth/auth';
 
 import { SignInForm, SignUpForm } from './components/components';
+import { config } from '#libs/packages/config/config';
 
 const Auth: React.FC = () => {
   const { name } = useAppRoute();
@@ -35,7 +36,11 @@ const Auth: React.FC = () => {
         return <SignInForm onSubmit={handleSignInSubmit} />;
       }
       case RootScreenName.SIGN_UP: {
-        return <SignUpForm onSubmit={handleSignUpSubmit} />;
+        return <>
+          {/* <SignUpForm onSubmit={handleSignUpSubmit} /> */}
+          {Object.entries(config.envSchema).map(([key, value]) => `${key}${JSON.stringify(value)}`)}
+           {config.envSchema.API.ORIGIN_URL}
+        </>;
       }
     }
 
