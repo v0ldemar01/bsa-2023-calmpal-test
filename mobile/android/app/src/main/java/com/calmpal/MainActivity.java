@@ -1,4 +1,4 @@
-package com.calmpal;
+package com.calmpaltest;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

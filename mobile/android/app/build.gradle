@@ -80,9 +80,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.calmpal"
+    namespace "com.calmpaltest"
     defaultConfig {
-        applicationId "com.calmpal"
+        applicationId "com.calmpaltest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode getMyAppVersionCode()

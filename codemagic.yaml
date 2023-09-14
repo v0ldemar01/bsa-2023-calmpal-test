@@ -20,6 +20,7 @@ scripts:
     name: Create .env file and set variables
     script: |
       cat >> .env << EOF
+      ENVIRONMENT = $ENVIRONMENT
       API_URL = $API_URL
       APP_HOST = $APP_HOST
       APP_SCHEME = $APP_SCHEME
@@ -52,7 +53,7 @@ workflows:
         - env_vars
         - google_play
       vars:
-        PACKAGE_NAME: 'com.calmpal'
+        PACKAGE_NAME: 'com.calmpaltest'
     triggering:
       events:
         - push
