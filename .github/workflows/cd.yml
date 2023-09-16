@@ -59,7 +59,7 @@ jobs:
           ECR_REPOSITORY: calmpal-backend-development
           IMAGE_TAG: latest
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_REGISTRY
+          # aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_REGISTRY
           # Build a docker container and push it to ECR
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f ./backend/Dockerfile.development --platform=linux/amd64 --build-arg NODE_ENV=development --build-arg HOST=localhost --build-arg PORT=3001 .
           echo "Pushing image to ECR..."
