@@ -46,11 +46,11 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # - name: Login to Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v1.7.0
-      #   with:
-      #     mask-password: false
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1.7.0
+        with:
+          mask-password: false
 
       - name: Build, tag, and push the image to Amazon ECR
         id: build-image
