@@ -51,7 +51,7 @@ jobs:
           parse-json-secrets: true
 
       - name: Setup docker services
-        run: docker-compose -f docker-compose.services.yml up -d calmpal_db
+        run: docker-compose -f docker-compose.services.yml --env-file ./.env up -d calmpal_db
 
       - name: Figure out whether migrations can be applied to existing environment database
         env:
