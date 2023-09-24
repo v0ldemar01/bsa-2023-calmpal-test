@@ -7,7 +7,7 @@ env:
   DB_NAME: calmpal_db
   DB_USERNAME: postgres
   DB_PASSWORD: password
-  DB_HOST: localhost
+  DB_HOST: calmpal_db
   DB_PORT: 5434
   DB_DIALECT: pg
   DB_POOL_MIN: 2
@@ -52,8 +52,7 @@ jobs:
 
       - name: Setup docker services
         run: |
-          env > .env
-          docker-compose -f docker-compose.services.yml --env-file ./.env up -d calmpal_db
+          docker-compose -f docker-compose.services.yml up -d calmpal_db
 
       - name: Figure out whether migrations can be applied to existing environment database
         env:
