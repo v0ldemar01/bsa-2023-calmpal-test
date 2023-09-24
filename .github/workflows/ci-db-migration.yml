@@ -54,6 +54,11 @@ jobs:
         run: |
           docker-compose -f docker-compose.services.yml up -d calmpal_db
 
+      - name: Get container IP
+        run: |
+          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-calmpal_db-name)
+          echo "Container IP: $CONTAINER_IP"
+
       - name: Figure out whether migrations can be applied to existing environment database
         env:
           JWT_SECRET_KEY: ${{ env.ENVIRONMENT_JWT_SECRET }}
