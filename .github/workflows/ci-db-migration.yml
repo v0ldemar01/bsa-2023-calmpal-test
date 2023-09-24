@@ -7,7 +7,7 @@ env:
   DB_NAME: calmpal_db
   DB_USERNAME: postgres
   DB_PASSWORD: password
-  DB_HOST: docker.local
+  DB_HOST: localhost
   DB_PORT: 5434
   DB_DIALECT: pg
   DB_POOL_MIN: 2
