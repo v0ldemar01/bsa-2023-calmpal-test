@@ -70,7 +70,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ env.ENVIRONMENT_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.ENVIRONMENT_AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
-          DB_HOST: $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' calmpal_db)
+          DB_HOST: ::$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' calmpal_db)
         run: |
           env > .env
           docker logs calmpal_db
