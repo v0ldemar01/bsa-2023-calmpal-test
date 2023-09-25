@@ -67,9 +67,7 @@ jobs:
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
           DB_HOST: ${{ env.HOST_IP }}
         run: |
-          env > ./backend/.env
-          docker logs calmpal_db
-          docker run --rm  --env-file ./backend/.env $(docker build -f ./backend/Dockerfile.db-migrations -q .)
+          docker run --rm  $(docker build -f ./backend/Dockerfile.db-migrations -q .)
 
       - name: Stop docker services
         run: docker compose -f docker-compose.services.yml down
