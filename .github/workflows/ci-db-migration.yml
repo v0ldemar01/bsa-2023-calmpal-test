@@ -52,7 +52,7 @@ jobs:
 
       - name: Setup docker services
         run: |
-          docker-compose -f docker-compose.services.yml up -d calmpal_db
+          docker-compose -f docker-compose.services.yml up calmpal_db
 
       - name: Figure out whether migrations can be applied to existing environment database
         env:
@@ -64,7 +64,7 @@ jobs:
         run: |
           env > .env
           docker logs calmpal_db
-          docker run --rm --env-file ./.env $(docker build -f ./backend/Dockerfile.db-migrations -q .)
+          docker run --rm --env-file ./.env --net="host" $(docker build -f ./backend/Dockerfile.db-migrations -q .)
 
       - name: Stop docker services
         run: docker-compose -f docker-compose.services.yml down
