@@ -12,6 +12,8 @@ services:
       - 5434:5432
     networks:
       - calmpal_network
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: on-failure
@@ -30,3 +32,5 @@ networks:
 volumes:
   pgdata:
     driver: local
+
+
