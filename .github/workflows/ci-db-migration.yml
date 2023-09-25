@@ -51,17 +51,16 @@ jobs:
           parse-json-secrets: true
 
       - name: Setup docker services
+        run: |
+          docker compose -f docker-compose.services.yml up -d calmpal_db
+
+      - name: Figure out whether migrations can be applied to existing environment database
         env:
           JWT_SECRET_KEY: ${{ env.ENVIRONMENT_JWT_SECRET }}
           AWS_REGION: ${{ env.ENVIRONMENT_AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ env.ENVIRONMENT_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.ENVIRONMENT_AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
-        run: |
-          docker compose -f docker-compose.services.yml up -d calmpal_db
-
-      - name: Figure out whether migrations can be applied to existing environment database
-
         run: |
           env > ./backend/.env
           docker logs calmpal_db
