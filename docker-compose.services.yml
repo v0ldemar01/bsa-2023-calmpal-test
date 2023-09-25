@@ -12,21 +12,8 @@ services:
       - 5434:5432
     networks:
       - calmpal_network
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: on-failure
-  backend_db_migrations:
-    container_name: backend_db_migrations
-    build:
-      context: .
-      dockerfile: backend/Dockerfile.db-migrations
-    networks:
-      - calmpal_network
-    command: printenv
-    depends_on:
-      - calmpal_db
     restart: on-failure
 
 networks:
