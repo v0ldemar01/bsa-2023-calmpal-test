@@ -58,9 +58,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ env.ENVIRONMENT_AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
         run: |
-          env > .env
-          cat .env
-          docker compose -f docker-compose.services.yml --env-file ./.env up calmpal_db backend_db_migrations
+          docker compose -f docker-compose.services.yml up calmpal_db backend_db_migrations
 
       # - name: Figure out whether migrations can be applied to existing environment database
 
@@ -70,4 +68,4 @@ jobs:
       #     docker run --rm --env-file ./.env --net="host" $(docker build -f ./backend/Dockerfile.db-migrations -q .)
 
       - name: Stop docker services
-        run: docker-compose -f docker-compose.services.yml down
+        run: docker compose -f docker-compose.services.yml down
