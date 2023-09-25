@@ -2,10 +2,9 @@ import { type NavigationProp } from '@react-navigation/native';
 import React from 'react';
 
 import {
-  Icon,
+  BackButton,
   IconButton,
   Text,
-  TouchableOpacity,
   View,
 } from '#libs/components/components';
 import { AppColor, ProfileScreenName } from '#libs/enums/enums';
@@ -21,6 +20,7 @@ type Properties = {
   isArrowVisible?: boolean;
   badgeCount?: number;
   isProfileVisible?: boolean;
+  fontSize?: 'small' | 'large';
 };
 
 const Header: React.FC<Properties> = ({
@@ -28,16 +28,13 @@ const Header: React.FC<Properties> = ({
   isArrowVisible = false,
   badgeCount = DEFAULT_BADGE_COUNT,
   isProfileVisible = false,
+  fontSize = 'large',
 }) => {
   const navigation =
     useNavigation<NavigationProp<ProfileNavigationParameterList>>();
   const { name } = useAppRoute();
 
   const hasValue = Boolean(badgeCount);
-
-  const handleGoBack = (): void => {
-    navigation.goBack();
-  };
 
   const handleIconPress = (): void => {
     navigation.navigate(ProfileScreenName.PROFILE);
@@ -51,13 +48,14 @@ const Header: React.FC<Properties> = ({
         isProfileVisible && styles.settings,
       ]}
     >
-      {isArrowVisible && (
-        <TouchableOpacity style={styles.arrow} onPress={handleGoBack}>
-          <Icon name="back-arrow" color={AppColor.BLUE_200} />
-        </TouchableOpacity>
-      )}
+      {isArrowVisible && <BackButton />}
+
       <View style={styles.titleBadgeContainer}>
-        <Text style={styles.title}>{title ?? name}</Text>
+        <Text
+          style={fontSize === 'small' ? styles.smallTitle : styles.largeTitle}
+        >
+          {title ?? name}
+        </Text>
         {hasValue && <Badge count={badgeCount} />}
       </View>
       {isProfileVisible && (

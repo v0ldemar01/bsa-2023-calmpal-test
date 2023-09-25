@@ -1,34 +1,58 @@
 import cardPlaceholder from '#assets/img/card-image-placeholder.png';
-import { Card, Icon, Search } from '#libs/components/components.js';
-import { IconColor } from '#libs/enums/enums.js';
-import { useCallback, useSearch } from '#libs/hooks/hooks.js';
+import {
+  Card,
+  Icon,
+  Link,
+  Search,
+  Sidebar,
+  SidebarBody,
+  SidebarHeader,
+} from '#libs/components/components.js';
+import { AppRoute, IconColor } from '#libs/enums/enums.js';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useCallback,
+  useEffect,
+  useParams,
+  useSearch,
+} from '#libs/hooks/hooks.js';
+import { type ValueOf } from '#libs/types/types.js';
+import { actions as chatsActions } from '#slices/chats/chats.js';
 
 import styles from './styles.module.scss';
 
-const mockedChats = [
-  { id: 1, name: 'Relationship' },
-  { id: 2, name: 'Friends' },
-  { id: 3, name: 'Family' },
-  { id: 4, name: 'Work' },
-];
-
-const mockedSelectedChat = {
-  id: 1,
+type Properties = {
+  isSidebarShown: boolean;
+  onSetIsSidebarShow: (value: boolean) => void;
 };
 
-const ChatSidebar: React.FC = () => {
-  const { filteredElements, setFilter } = useSearch(mockedChats, 'name');
-
-  const handleSelectChat = useCallback((id: number) => {
-    return () => {
-      mockedSelectedChat.id = id;
-      // TODO redux logic
+const ChatSidebar: React.FC<Properties> = ({
+  isSidebarShown,
+  onSetIsSidebarShow,
+}) => {
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
+  const { chats } = useAppSelector(({ chats }) => {
+    return {
+      chats: chats.chats,
     };
-  }, []);
+  });
+
+  useEffect(() => {
+    void dispatch(chatsActions.getAllChats());
+  }, [dispatch]);
+
+  const { filteredElements, setFilter } = useSearch(chats, 'name');
+
+  const handleSelectChat = useCallback(() => {
+    onSetIsSidebarShow(false);
+    // TODO redux logic
+  }, [onSetIsSidebarShow]);
 
   return (
-    <div className={styles['container']}>
-      <div className={styles['header']}>
+    <Sidebar isSidebarShown={isSidebarShown}>
+      <SidebarHeader>
         <div className={styles['info']}>
           <span>Chat</span>
           <span className={styles['chat-number']}>
@@ -36,28 +60,36 @@ const ChatSidebar: React.FC = () => {
           </span>
         </div>
         <div className={styles['plus']}>
-          <Icon name={'plus'} color={IconColor.BLUE} />
+          <Link to={AppRoute.CHATS}>
+            <Icon name="plus" color={IconColor.BLUE} width={30} height={30} />
+          </Link>
         </div>
-      </div>
-      <div className={styles['list']}>
+      </SidebarHeader>
+      <SidebarBody>
         <div className={styles['search']}>
           <Search onValueChange={setFilter} />
         </div>
         <div className={styles['chat-list']}>
           {filteredElements.map((filteredChat) => {
+            const chatLink = AppRoute.CHATS_$ID.replace(
+              ':id',
+              String(filteredChat.id),
+            ) as ValueOf<typeof AppRoute>;
+
             return (
-              <Card
-                title={filteredChat.name}
-                imageUrl={cardPlaceholder}
-                onClick={handleSelectChat(filteredChat.id)}
-                isActive={mockedSelectedChat.id === filteredChat.id}
-                key={filteredChat.id}
-              />
+              <Link key={filteredChat.id} to={chatLink}>
+                <Card
+                  title={filteredChat.name}
+                  imageUrl={cardPlaceholder}
+                  onClick={handleSelectChat}
+                  isActive={String(filteredChat.id) === id}
+                />
+              </Link>
             );
           })}
         </div>
-      </div>
-    </div>
+      </SidebarBody>
+    </Sidebar>
   );
 };
 

@@ -7,20 +7,34 @@ import {
 
 import { AppEnvironment } from '#libs/enums/enums';
 import { authApi } from '#packages/auth/auth';
+import { chatApi } from '#packages/chats/chats';
+import { journalApi } from '#packages/journal/journal';
+import { meditationApi } from '#packages/meditation/meditation';
 import { reducer as authReducer } from '#slices/auth/auth';
+import { reducer as chatsReducer } from '#slices/chats/chats';
+import { reducer as journalReducer } from '#slices/journal/journal';
+import { reducer as meditationReducer } from '#slices/meditation/meditation';
 
 import { type Config } from '../config/config';
 import { notification } from '../notification/notification';
+import { player } from '../player/player';
 import { storage } from '../storage/storage';
 import { handleError } from './middlewares/middlewares';
 
 type RootReducer = {
   auth: ReturnType<typeof authReducer>;
+  journal: ReturnType<typeof journalReducer>;
+  chats: ReturnType<typeof chatsReducer>;
+  meditation: ReturnType<typeof meditationReducer>;
 };
 
 type ExtraArguments = {
   authApi: typeof authApi;
+  journalApi: typeof journalApi;
+  chatApi: typeof chatApi;
+  meditationApi: typeof meditationApi;
   notification: typeof notification;
+  player: typeof player;
   storage: typeof storage;
 };
 
@@ -38,6 +52,9 @@ class Store {
       devTools: config.ENV.APP.ENVIRONMENT !== AppEnvironment.PRODUCTION,
       reducer: {
         auth: authReducer,
+        journal: journalReducer,
+        chats: chatsReducer,
+        meditation: meditationReducer,
       },
       middleware: (getDefaultMiddleware) => {
         return [
@@ -55,7 +72,11 @@ class Store {
   public get extraArguments(): ExtraArguments {
     return {
       authApi,
+      journalApi,
+      chatApi,
+      meditationApi,
       notification,
+      player,
       storage,
     };
   }
