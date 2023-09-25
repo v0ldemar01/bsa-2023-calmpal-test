@@ -22,7 +22,9 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile.db-migrations
-    command: /bin/sh -c "npm run prestart -w backend"
+    command: |
+      printenv
+      bash -c npm run prestart -w backend
     networks:
       - calmpal_network
 
