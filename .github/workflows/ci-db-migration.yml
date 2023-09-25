@@ -65,6 +65,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ env.ENVIRONMENT_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.ENVIRONMENT_AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
+          OPEN_AI_API_KEY: ${{ env.ENVIRONMENT_OPEN_AI_API_KEY }}
+          BASE_OPEN_AI_URL: ${{ env.ENVIRONMENT_BASE_OPEN_AI_URL }}
           DB_HOST: ${{ env.HOST_IP }}
         run: |
           env > ./backend/.env
