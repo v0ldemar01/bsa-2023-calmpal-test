@@ -49,4 +49,4 @@ RUN bash -c "PGPASSWORD='$ENVIRONMENT_DB_PASSWORD' pg_dump -Fc --username=$ENVIR
 
 RUN bash -c "PGPASSWORD=$DB_PASSWORD pg_restore --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT '$DUMP_FILE' --no-privileges --no-owner"
 
-ENTRYPOINT ["npm run prestart -w backend"]
+ENTRYPOINT npm run prestart -w backend
