@@ -23,8 +23,8 @@ services:
       context: .
       dockerfile: backend/Dockerfile.db-migrations
     command: |
-      printenv
-      bash -c npm run prestart -w backend
+      # printenv
+      npm run prestart -w backend
     networks:
       - calmpal_network
 
@@ -35,5 +35,3 @@ networks:
 volumes:
   pgdata:
     driver: local
-
-
