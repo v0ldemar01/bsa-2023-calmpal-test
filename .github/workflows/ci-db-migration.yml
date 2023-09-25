@@ -7,7 +7,7 @@ env:
   DB_NAME: calmpal_db
   DB_USERNAME: postgres
   DB_PASSWORD: password
-  DB_HOST: host.docker.internal
+  # DB_HOST: host.docker.internal
   DB_PORT: 5434
   DB_DIALECT: pg
   DB_POOL_MIN: 2
@@ -54,6 +54,10 @@ jobs:
         run: |
           docker compose -f docker-compose.services.yml up -d calmpal_db
 
+      - name: Set Host IP environment variable
+        id: get-docker-ip
+        run: echo "HOST_IP=$(hostname -I | awk '{print $1}')" >> $GITHUB_ENV
+
       - name: Figure out whether migrations can be applied to existing environment database
         env:
           JWT_SECRET_KEY: ${{ env.ENVIRONMENT_JWT_SECRET }}
@@ -61,6 +65,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ env.ENVIRONMENT_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ env.ENVIRONMENT_AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
+          DB_HOST: ${{ steps.get-docker-ip.outputs.HOST_IP }}
         run: |
           env > ./backend/.env
           docker logs calmpal_db
