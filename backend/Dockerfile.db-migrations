@@ -24,7 +24,7 @@ RUN npm run build -w backend
 
 RUN bash -c PGPASSWORD=$ENVIRONMENT_DB_PASSWORD pg_dump -Fc --username=$ENVIRONMENT_DB_USERNAME --host=$ENVIRONMENT_DB_HOST --port=$ENVIRONMENT_DB_PORT --dbname=$ENVIRONMENT_DB_NAME -E utf8 --file=$DUMP_FILE
 RUN bash -c PGPASSWORD=some-value pg_restore --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT --file=$DUMP_FILE --no-privileges --no-owner
-RUN bash -c PGPASSWORD=$DB_PASSWORD psql --list --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT
+RUN PGPASSWORD=$DB_PASSWORD psql --list --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT
 
 ENTRYPOINT ["bash", "-c", "npm run migrate:dev -w backend"]
 
