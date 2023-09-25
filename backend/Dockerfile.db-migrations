@@ -46,14 +46,7 @@ COPY ./backend/ ./backend/
 RUN npm run build -w backend
 
 RUN bash -c "PGPASSWORD='$ENVIRONMENT_DB_PASSWORD' pg_dump -Fc --username=$ENVIRONMENT_DB_USERNAME --host=$ENVIRONMENT_DB_HOST --port=$ENVIRONMENT_DB_PORT --dbname=$ENVIRONMENT_DB_NAME -E utf8 > $DUMP_FILE"
-# RUN bash -c 'PGPASSWORD=$ENVIRONMENT_DB_PASSWORD pg_dump -Fc --username=postgres --host=calmpal-db-development.cwdhvm1ddlg8.eu-west-1.rds.amazonaws.com --port=5432 --dbname=calmpal_db -E utf8 > ./tmp-dump'
 
 RUN bash -c "PGPASSWORD=$DB_PASSWORD pg_restore --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT '$DUMP_FILE' --no-privileges --no-owner"
-# RUN bash -c 'PGPASSWORD=password pg_restore --dbname=calmpal_db --username=postgres --host=host.docker.internal --port=5434 ./tmp-dump --no-privileges --no-owner'
 
-# RUN bash -c PGPASSWORD=$DB_PASSWORD psql --list --dbname=$DB_NAME --username=$DB_USERNAME --host=$DB_HOST --port=$DB_PORT
-
-ENTRYPOINT ["bash", "-c", "npm run prestart -w backend"]
-
-
-
+ENTRYPOINT ["npm run prestart -w backend"]
