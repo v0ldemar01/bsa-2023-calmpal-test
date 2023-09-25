@@ -59,7 +59,8 @@ jobs:
           AWS_BUCKET_NAME: ${{ env.ENVIRONMENT_AWS_BUCKET_NAME }}
         run: |
           env > .env
-          docker-compose -f docker-compose.services.yml --env-file ./.env up calmpal_db backend_db_migrations
+          cat .env
+          docker compose -f docker-compose.services.yml --env-file ./.env up calmpal_db backend_db_migrations
 
       # - name: Figure out whether migrations can be applied to existing environment database
 
