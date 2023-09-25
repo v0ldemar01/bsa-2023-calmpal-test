@@ -70,7 +70,8 @@ jobs:
           DB_HOST: ${{ env.HOST_IP }}
         run: |
           env > ./backend/.env
-          docker run --rm --env-file ./backend/.env $(docker build \
+
+          docker build -t db-migrations-image \
           --build-arg ENVIRONMENT_DB_PASSWORD=$ENVIRONMENT_DB_PASSWORD \
           --build-arg ENVIRONMENT_DB_USERNAME=$ENVIRONMENT_DB_USERNAME \
           --build-arg ENVIRONMENT_DB_HOST=$ENVIRONMENT_DB_HOST \
@@ -83,7 +84,9 @@ jobs:
           --build-arg DB_HOST=$DB_HOST \
           --build-arg DB_PORT=$DB_PORT \
           --build-arg DB_NAME=$DB_NAME \
-          -f ./backend/Dockerfile.db-migrations -q .)
+          -f ./backend/Dockerfile.db-migrations -q .
+
+          docker run --rm --env-file ./backend/.env db-migrations-image
 
       - name: Stop docker services
         run: docker compose -f docker-compose.services.yml down
