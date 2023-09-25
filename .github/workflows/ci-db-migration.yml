@@ -68,7 +68,7 @@ jobs:
           DB_HOST: ${{ env.HOST_IP }}
         run: |
           env > ./backend/.env
-          docker run --rm --env-file ./backend/.env $(docker build -f ./backend/Dockerfile.db-migrations .)
+          docker run --rm --env-file ./backend/.env $(docker build --verbose -f ./backend/Dockerfile.db-migrations .)
 
       - name: Stop docker services
         run: docker compose -f docker-compose.services.yml down
