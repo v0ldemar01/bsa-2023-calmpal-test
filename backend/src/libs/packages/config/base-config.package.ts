@@ -17,6 +17,7 @@ class BaseConfig implements Config {
     config();
 
     this.envSchema.load({});
+    console.log('this.envSchema.load({})', this.envSchema.load({}));
     this.envSchema.validate({
       allowed: 'strict',
       output: (message) => {
